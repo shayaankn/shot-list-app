@@ -6,6 +6,35 @@
     </button>
   </div>
 
+  <!-- Header row for column labels -->
+  <div class="bg-white shadow rounded p-3 mb-3 flex items-start">
+    <div class="flex flex-col items-center w-12">
+      <!-- space for checkbox/index column -->
+    </div>
+
+    <div class="flex-1 grid grid-cols-5 gap-3">
+      <div>
+        <div class="text-xs text-gray-600 font-semibold">Lens</div>
+      </div>
+      <div>
+        <div class="text-xs text-gray-600 font-semibold">Camera Setup</div>
+      </div>
+      <div>
+        <div class="text-xs text-gray-600 font-semibold">Location</div>
+      </div>
+      <div>
+        <div class="text-xs text-gray-600 font-semibold">Time of Day</div>
+      </div>
+      <div>
+        <div class="text-xs text-gray-600 font-semibold">Date</div>
+      </div>
+    </div>
+
+    <div class="flex flex-col items-end w-16">
+      <!-- space for actions column -->
+    </div>
+  </div>
+
   <div class="space-y-4">
     <div *ngFor="let shot of shots; let i = index" class="bg-white shadow rounded p-4 flex items-start space-x-4" [class.opacity-50]="shot.completed">
       <div class="flex flex-col items-center w-12">
@@ -15,28 +44,23 @@
 
       <div class="flex-1 grid grid-cols-5 gap-3">
         <div>
-          <label class="text-xs text-gray-600">Lens</label>
           <input [(ngModel)]="shot.lens" class="border p-1 w-full rounded" />
         </div>
         <div>
-          <label class="text-xs text-gray-600">Camera Setup</label>
           <input [(ngModel)]="shot.cameraSetup" class="border p-1 w-full rounded" />
         </div>
         <div>
-          <label class="text-xs text-gray-600">Location</label>
           <input [(ngModel)]="shot.location" class="border p-1 w-full rounded" />
         </div>
         <div>
-          <label class="text-xs text-gray-600">Time of Day</label>
           <input [(ngModel)]="shot.timeOfDay" class="border p-1 w-full rounded" />
         </div>
         <div>
-          <label class="text-xs text-gray-600">Date</label>
           <input [(ngModel)]="shot.date" type="date" class="border p-1 w-full rounded" />
         </div>
       </div>
 
-      <div class="flex flex-col align-center items-end space-y-2">
+      <div class="flex flex-col align-center items-end space-y-2 w-16">
         <button (click)="removeShot(i)" class="text-red-500 hover:underline">Delete</button>
       </div>
     </div>
