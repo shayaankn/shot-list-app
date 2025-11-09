@@ -6,34 +6,43 @@
     </button>
   </div>
 
-  <table class="w-full border text-sm">
-    <thead class="bg-gray-200">
-      <tr>
-        <th class="p-2">✔</th>
-        <th class="p-2">#</th>
-        <th class="p-2">Lens</th>
-        <th class="p-2">Camera Setup</th>
-        <th class="p-2">Location</th>
-        <th class="p-2">Time of Day</th>
-        <th class="p-2">Date</th>
-        <th class="p-2">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let shot of shots; let i = index" [class.line-through]="shot.completed">
-        <td class="text-center">
-          <input type="checkbox" [(ngModel)]="shot.completed" (change)="saveShots()" />
-        </td>
-        <td>{{ i + 1 }}</td>
-        <td><input [(ngModel)]="shot.lens" class="border p-1 w-full" /></td>
-        <td><input [(ngModel)]="shot.cameraSetup" class="border p-1 w-full" /></td>
-        <td><input [(ngModel)]="shot.location" class="border p-1 w-full" /></td>
-        <td><input [(ngModel)]="shot.timeOfDay" class="border p-1 w-full" /></td>
-        <td><input [(ngModel)]="shot.date" type="date" class="border p-1 w-full" /></td>
-        <td class="text-center">
-          <button (click)="removeShot(i)" class="text-red-500 hover:underline">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="space-y-4">
+    <div *ngFor="let shot of shots; let i = index" class="bg-white shadow rounded p-4 flex items-start space-x-4" [class.opacity-50]="shot.completed">
+      <div class="flex flex-col items-center w-12">
+        <input type="checkbox" [(ngModel)]="shot.completed" (change)="saveShots()" />
+        <div class="text-xs text-gray-500 mt-2">#{{ i + 1 }}</div>
+      </div>
+
+      <div class="flex-1 grid grid-cols-5 gap-3">
+        <div>
+          <label class="text-xs text-gray-600">Lens</label>
+          <input [(ngModel)]="shot.lens" class="border p-1 w-full rounded" />
+        </div>
+        <div>
+          <label class="text-xs text-gray-600">Camera Setup</label>
+          <input [(ngModel)]="shot.cameraSetup" class="border p-1 w-full rounded" />
+        </div>
+        <div>
+          <label class="text-xs text-gray-600">Location</label>
+          <input [(ngModel)]="shot.location" class="border p-1 w-full rounded" />
+        </div>
+        <div>
+          <label class="text-xs text-gray-600">Time of Day</label>
+          <input [(ngModel)]="shot.timeOfDay" class="border p-1 w-full rounded" />
+        </div>
+        <div>
+          <label class="text-xs text-gray-600">Date</label>
+          <input [(ngModel)]="shot.date" type="date" class="border p-1 w-full rounded" />
+        </div>
+      </div>
+
+      <div class="flex flex-col align-center items-end space-y-2">
+        <button (click)="removeShot(i)" class="text-red-500 hover:underline">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="shots.length === 0" class="text-center text-gray-500 mt-6">
+    No shots yet — add one.
+  </div>
 </div>
