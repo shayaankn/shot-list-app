@@ -30,4 +30,10 @@ export class Projects {
   openProject(project: any) {
     this.router.navigate(['/shotlist', project.id]);
   }
+
+  deleteProject(project: any) {
+    if (!confirm(`Delete project "${project.name}" and all its shots?`)) return;
+    this.storage.deleteProject(project.id);
+    this.projects = this.storage.getProjects();
+  }
 }

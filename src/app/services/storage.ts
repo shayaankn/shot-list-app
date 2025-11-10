@@ -21,4 +21,10 @@ export class Storage {
   saveShots(projectId: string, shots: any[]) {
     localStorage.setItem(`shots_${projectId}`, JSON.stringify(shots));
   }
+
+  deleteProject(projectId: string) {
+    const projects = this.getProjects().filter((p: any) => p.id !== projectId);
+    localStorage.setItem(this.key, JSON.stringify(projects));
+    localStorage.removeItem(`shots_${projectId}`);
+  }
 }
