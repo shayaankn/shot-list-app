@@ -1,34 +1,34 @@
 <div class="max-w-xl mx-auto space-y-4">
-  <h2 class="text-xl font-semibold">Projects</h2>
+  <h2 class="text-stone-800 text-xl font-semibold">Projects</h2>
 
   <div class="flex gap-2">
     <input
       [(ngModel)]="newProjectName"
       type="text"
       placeholder="New project name"
-      class="flex-grow border rounded p-2"
+      class="flex-grow border border-stone-400 placeholder-stone-300 rounded-md p-2"
     />
-    <button (click)="createProject()" class="bg-blue-600 text-white px-4 py-2 rounded">
+    <button
+      (click)="createProject()"
+      class="bg-stone-800 hover:bg-stone-700 text-stone-100 rounded-md cursor-pointer px-4 py-2"
+    >
       + Create
     </button>
   </div>
 
-  <ul class="border rounded divide-y">
-    <li
-      *ngFor="let project of projects"
-      class="flex justify-between items-center p-2 hover:bg-gray-100"
-    >
-      <span>{{ project.name }}</span>
+  <ul class="border border-stone-200 rounded-md divide-y divide-stone-200">
+    <li *ngFor="let project of projects" class="flex justify-between items-center p-2">
+      <span class="text-stone-800">{{ project.name }}</span>
       <div class="flex items-center gap-3">
         <button
           (click)="openProject(project)"
-          class="text-sm text-blue-600 hover:underline"
+          class="text-sm text-stone-800 hover:underline cursor-pointer"
         >
           Open
         </button>
         <button
           (click)="deleteProject(project)"
-          class="text-sm text-red-600 hover:underline"
+          class="text-sm text-red-600 hover:underline cursor-pointer"
           title="Delete project and its shots"
         >
           Delete
