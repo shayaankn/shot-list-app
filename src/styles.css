@@ -1,1 +1,5 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+body {
+  font-family: "Geist", Inter, "Helvetica Neue", Arial, sans-serif;
+}
