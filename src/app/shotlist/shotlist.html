@@ -19,19 +19,19 @@
 
     <div class="flex-1 grid grid-cols-5 gap-3">
       <div>
-        <div class="text-xs text-stone-600 font-semibold">Lens</div>
+        <div class="text-sm text-stone-600 font-semibold">Lens</div>
       </div>
       <div>
-        <div class="text-xs text-stone-600 font-semibold">Camera Setup</div>
+        <div class="text-sm text-stone-600 font-semibold">Camera Setup</div>
       </div>
       <div>
-        <div class="text-xs text-stone-600 font-semibold">Location</div>
+        <div class="text-sm text-stone-600 font-semibold">Location</div>
       </div>
       <div>
-        <div class="text-xs text-stone-600 font-semibold">Time of Day</div>
+        <div class="text-sm text-stone-600 font-semibold">Time of Day</div>
       </div>
       <div>
-        <div class="text-xs text-stone-600 font-semibold">Date</div>
+        <div class="text-sm text-stone-600 font-semibold">Date</div>
       </div>
     </div>
 
@@ -42,30 +42,30 @@
 
   <div class="space-y-4">
     <div *ngFor="let shot of shots; let i = index" class="bg-stone-50 shadow rounded-md flex items-start space-x-4 p-4" [class.opacity-50]="shot.completed">
-      <div class="flex flex-col items-center w-12">
+      <div class="flex flex-col self-center w-12">
         <input type="checkbox" [(ngModel)]="shot.completed" (change)="saveShots()" />
         <!-- <div class="text-xs text-gray-500 mt-2">#{{ i + 1 }}</div> -->
       </div>
 
       <div class="flex-1 grid grid-cols-5 gap-3">
         <div>
-          <input [(ngModel)]="shot.lens" class="border border-stone-200 hover:border-stone-400 rounded-md w-full p-1" />
+          <input [(ngModel)]="shot.lens" class="text-stone-800 border border-stone-200 hover:border-stone-400 rounded-md w-full p-1" />
         </div>
         <div>
-          <input [(ngModel)]="shot.cameraSetup" class="border border-stone-200 hover:border-stone-400 rounded-md w-full p-1" />
+          <input [(ngModel)]="shot.cameraSetup" class="text-stone-800 border border-stone-200 hover:border-stone-400 rounded-md w-full p-1" />
         </div>
         <div>
-          <input [(ngModel)]="shot.location" class="border border-stone-200 hover:border-stone-400 rounded-md w-full p-1" />
+          <input [(ngModel)]="shot.location" class="text-stone-800 border border-stone-200 hover:border-stone-400 rounded-md w-full p-1" />
         </div>
         <div>
-          <input [(ngModel)]="shot.timeOfDay" class="border border-stone-200 hover:border-stone-400 rounded-md w-full p-1" />
+          <input [(ngModel)]="shot.timeOfDay" class="text-stone-800 border border-stone-200 hover:border-stone-400 rounded-md w-full p-1" />
         </div>
         <div>
-          <input [(ngModel)]="shot.date" type="date" class="border border-stone-200 hover:border-stone-400 rounded-md w-full p-1" />
+          <input [(ngModel)]="shot.date" type="date" class="text-stone-800 border border-stone-200 hover:border-stone-400 rounded-md w-full p-1" />
         </div>
       </div>
 
-      <div class="flex flex-col align-center items-end space-y-2 w-16">
+      <div class="flex flex-col self-center items-end space-y-2 w-16">
         <button (click)="removeShot(i)" class="text-sm text-red-600 hover:underline cursor-pointer">Delete</button>
       </div>
     </div>
