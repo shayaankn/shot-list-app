@@ -20,10 +20,30 @@ export class Shotlist {
   constructor(private route: ActivatedRoute, private storage: Storage) {
     this.projectId = this.route.snapshot.paramMap.get('id')!;
     this.shots = this.storage.getShots(this.projectId) || [];
+    // normalize so each shot has the expected fields (preserves existing properties)
+    this.shots = this.shots.map((s: any) => ({
+      scene: '',
+      shot: '',
+      description: '',
+      lens: '',
+      movement: '',
+      timeOfDay: '',
+      completed: false,
+      ...s,
+    }));
   }
 
   addShot() {
-    this.shots.push({ completed: false });
+    // create shot with new structure
+    this.shots.push({
+      scene: '',
+      shot: '',
+      description: '',
+      lens: '',
+      movement: '',
+      timeOfDay: '',
+      completed: false,
+    });
     this.saveShots();
   }
 
