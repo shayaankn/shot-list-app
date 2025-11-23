@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 // import { FormsModule, NgFor } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -13,11 +13,11 @@ import { Storage } from '../services/storage';
   templateUrl: './shotlist.html',
   styleUrls: ['./shotlist.css'],
 })
-export class Shotlist {
+export class Shotlist implements OnDestroy {
   projectId = '';
   shots: any[] = [];
 
-  constructor(private route: ActivatedRoute, private storage: Storage) {
+  constructor(private route: ActivatedRoute, private storage: Storage, private router: Router) {
     this.projectId = this.route.snapshot.paramMap.get('id')!;
     this.shots = this.storage.getShots(this.projectId) || [];
     // normalize so each shot has the expected fields (preserves existing properties)
@@ -54,5 +54,17 @@ export class Shotlist {
 
   saveShots() {
     this.storage.saveShots(this.projectId, this.shots);
+  }
+
+  // new: ensure save when component is destroyed (navigation away)
+  ngOnDestroy(): void {
+    this.saveShots();
+  }
+
+  // new: called from the Back link to save then navigate
+  goBack(event: Event) {
+    event.preventDefault();
+    this.saveShots();
+    this.router.navigate(['/projects']);
   }
 }
