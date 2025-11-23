@@ -18,8 +18,8 @@
   </div>
 
   <!-- Header row for column labels -->
-  <div class="bg-stone-50 rounded-md shadow flex items-start p-3 mb-3">
-    <div class="flex flex-col items-center w-12">
+  <div class="bg-stone-50 rounded-md shadow flex items-start space-x-4 p-3 mb-3">
+    <div class="flex flex-col items-center w-8">
       <!-- space for checkbox/index column -->
     </div>
 
@@ -45,7 +45,7 @@
       </div>
     </div>
 
-    <div class="flex flex-col items-end w-16">
+    <div class="flex flex-col items-end w-12">
       <!-- space for actions column -->
     </div>
   </div>
@@ -56,12 +56,11 @@
       class="bg-stone-50 shadow rounded-md flex items-start space-x-4 p-4"
       [class.opacity-50]="shot.completed"
     >
-      <div class="flex flex-col self-center w-12">
+      <div class="flex flex-col self-center w-8">
         <input type="checkbox" [(ngModel)]="shot.completed" (change)="saveShots()" />
         <!-- <div class="text-xs text-gray-500 mt-2">#{{ i + 1 }}</div> -->
       </div>
 
-      <!-- changed: grid-cols-7 and description input spans 2 -->
       <div class="flex-1 grid grid-cols-7 gap-3">
         <div>
           <input
@@ -101,7 +100,7 @@
         </div>
       </div>
 
-      <div class="flex flex-col self-center items-end space-y-2 w-16">
+      <div class="flex flex-col self-center items-end space-y-2 w-12">
         <button (click)="removeShot(i)" class="text-sm text-red-600 hover:underline cursor-pointer">
           Delete
         </button>
