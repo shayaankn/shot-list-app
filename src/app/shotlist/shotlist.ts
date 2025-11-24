@@ -15,10 +15,15 @@ import { Storage } from '../services/storage';
 })
 export class Shotlist implements OnDestroy {
   projectId = '';
+  projectName = 'Shot List';
   shots: any[] = [];
 
   constructor(private route: ActivatedRoute, private storage: Storage, private router: Router) {
     this.projectId = this.route.snapshot.paramMap.get('id')!;
+    const projects = this.storage.getProjects ? this.storage.getProjects() : [];
+    const proj = projects.find((p: any) => p.id === this.projectId);
+    this.projectName = proj ? proj.name : 'Shot List';
+
     this.shots = this.storage.getShots(this.projectId) || [];
     // normalize so each shot has the expected fields (preserves existing properties)
     this.shots = this.shots.map((s: any) => ({
