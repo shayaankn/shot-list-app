@@ -17,104 +17,106 @@
     </div>
   </div>
 
-  <!-- Header row for column labels -->
-  <div class="border-b border-b-stone-300 flex items-start space-x-4 p-3">
-    <div class="flex flex-col items-center w-8">
-      <!-- space for checkbox/index column -->
-    </div>
+  <div class="overflow-x-auto">
+    <div class="min-w-[900px]">
+      <div class="border-b border-b-stone-300 flex items-start space-x-4 p-3">
+        <div class="flex flex-col items-center w-8">
+          <!-- space for checkbox/index column -->
+        </div>
 
-    <!-- changed: use 7 grid cols, Description spans 2 -->
-    <div class="flex-1 grid grid-cols-7 gap-3">
-      <div>
-        <div class="text-sm text-stone-600 font-semibold">Scene</div>
-      </div>
-      <div>
-        <div class="text-sm text-stone-600 font-semibold">Shot</div>
-      </div>
-      <div class="col-span-2">
-        <div class="text-sm text-stone-600 font-semibold">Description</div>
-      </div>
-      <div>
-        <div class="text-sm text-stone-600 font-semibold">Lens</div>
-      </div>
-      <div>
-        <div class="text-sm text-stone-600 font-semibold">Movement</div>
-      </div>
-      <div>
-        <div class="text-sm text-stone-600 font-semibold">Time of Day</div>
-      </div>
-    </div>
+        <div class="flex-1 grid grid-cols-7 gap-3">
+          <div>
+            <div class="text-sm text-stone-600 font-semibold">Scene</div>
+          </div>
+          <div>
+            <div class="text-sm text-stone-600 font-semibold">Shot</div>
+          </div>
+          <div class="col-span-2">
+            <div class="text-sm text-stone-600 font-semibold">Description</div>
+          </div>
+          <div>
+            <div class="text-sm text-stone-600 font-semibold">Lens</div>
+          </div>
+          <div>
+            <div class="text-sm text-stone-600 font-semibold">Movement</div>
+          </div>
+          <div>
+            <div class="text-sm text-stone-600 font-semibold">Time of Day</div>
+          </div>
+        </div>
 
-    <div class="flex flex-col items-end w-12">
-      <!-- space for actions column -->
+        <div class="flex flex-col items-end w-12">
+          <!-- space for actions column -->
+        </div>
+      </div>
+
+      <div>
+        <div
+          *ngFor="let shot of shots; let i = index"
+          class="flex items-start border-b border-b-stone-200 space-x-4 p-3"
+          [class.opacity-25]="shot.completed"
+        >
+          <div class="flex flex-col self-center w-8">
+            <input type="checkbox" [(ngModel)]="shot.completed" (change)="saveShots()" />
+            <!-- <div class="text-xs text-gray-500 mt-2">#{{ i + 1 }}</div> -->
+          </div>
+
+          <div class="flex-1 grid grid-cols-7 gap-3">
+            <div>
+              <input
+                [(ngModel)]="shot.scene"
+                (ngModelChange)="saveShots()"
+                class="text-sm text-stone-800 border border-stone-200 hover:border-stone-400 rounded-md w-full p-1"
+              />
+            </div>
+            <div>
+              <input
+                [(ngModel)]="shot.shot"
+                (ngModelChange)="saveShots()"
+                class="text-sm text-stone-800 border border-stone-200 hover:border-stone-400 rounded-md w-full p-1"
+              />
+            </div>
+            <div class="col-span-2">
+              <input
+                [(ngModel)]="shot.description"
+                (ngModelChange)="saveShots()"
+                class="text-sm text-stone-800 border border-stone-200 hover:border-stone-400 rounded-md w-full p-1"
+              />
+            </div>
+            <div>
+              <input
+                [(ngModel)]="shot.lens"
+                (ngModelChange)="saveShots()"
+                class="text-sm text-stone-800 border border-stone-200 hover:border-stone-400 rounded-md w-full p-1"
+              />
+            </div>
+            <div>
+              <input
+                [(ngModel)]="shot.movement"
+                (ngModelChange)="saveShots()"
+                class="text-sm text-stone-800 border border-stone-200 hover:border-stone-400 rounded-md w-full p-1"
+              />
+            </div>
+            <div>
+              <input
+                [(ngModel)]="shot.timeOfDay"
+                (ngModelChange)="saveShots()"
+                class="text-sm text-stone-800 border border-stone-200 hover:border-stone-400 rounded-md w-full p-1"
+              />
+            </div>
+          </div>
+
+          <div class="flex flex-col self-center items-end space-y-2 w-12">
+            <button (click)="removeShot(i)" class="text-sm text-red-600 hover:underline cursor-pointer">
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div>
-    <div
-      *ngFor="let shot of shots; let i = index"
-      class="flex items-start border-b border-b-stone-200 space-x-4 p-3"
-      [class.opacity-25]="shot.completed"
-    >
-      <div class="flex flex-col self-center w-8">
-        <input type="checkbox" [(ngModel)]="shot.completed" (change)="saveShots()" />
-        <!-- <div class="text-xs text-gray-500 mt-2">#{{ i + 1 }}</div> -->
-      </div>
-
-      <div class="flex-1 grid grid-cols-7 gap-3">
-        <div>
-          <input
-            [(ngModel)]="shot.scene"
-            (ngModelChange)="saveShots()"
-            class="text-sm text-stone-800 border border-stone-200 hover:border-stone-400 rounded-md w-full p-1"
-          />
-        </div>
-        <div>
-          <input
-            [(ngModel)]="shot.shot"
-            (ngModelChange)="saveShots()"
-            class="text-sm text-stone-800 border border-stone-200 hover:border-stone-400 rounded-md w-full p-1"
-          />
-        </div>
-        <div class="col-span-2">
-          <input
-            [(ngModel)]="shot.description"
-            (ngModelChange)="saveShots()"
-            class="text-sm text-stone-800 border border-stone-200 hover:border-stone-400 rounded-md w-full p-1"
-          />
-        </div>
-        <div>
-          <input
-            [(ngModel)]="shot.lens"
-            (ngModelChange)="saveShots()"
-            class="text-sm text-stone-800 border border-stone-200 hover:border-stone-400 rounded-md w-full p-1"
-          />
-        </div>
-        <div>
-          <input
-            [(ngModel)]="shot.movement"
-            (ngModelChange)="saveShots()"
-            class="text-sm text-stone-800 border border-stone-200 hover:border-stone-400 rounded-md w-full p-1"
-          />
-        </div>
-        <div>
-          <input
-            [(ngModel)]="shot.timeOfDay"
-            (ngModelChange)="saveShots()"
-            class="text-sm text-stone-800 border border-stone-200 hover:border-stone-400 rounded-md w-full p-1"
-          />
-        </div>
-      </div>
-
-      <div class="flex flex-col self-center items-end space-y-2 w-12">
-        <button (click)="removeShot(i)" class="text-sm text-red-600 hover:underline cursor-pointer">
-          Delete
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div *ngIf="shots.length === 0" class="text-center text-gray-500 mt-6">
+  <div *ngIf="shots.length === 0" class="text-sm text-center text-gray-500 mt-6">
     No shots yet — add one.
   </div>
 </div>
