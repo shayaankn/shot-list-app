@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '../services/storage';
 import { FormsModule } from '@angular/forms';
@@ -11,29 +11,31 @@ import { NgFor } from '@angular/common';
   templateUrl: './projects.html',
   styleUrl: './projects.css',
 })
-export class Projects {
+export class Projects implements OnInit {
   newProjectName = '';
   projects: any[] = [];
 
-  constructor(private storage: Storage, private router: Router) {
-    this.projects = this.storage.getProjects();
+  constructor(private storage: Storage, private router: Router) {}
+
+  async ngOnInit() {
+    this.projects = await this.storage.getProjects();
   }
 
-  createProject() {
+  async createProject() {
     if (!this.newProjectName.trim()) return;
     const id = Date.now().toString();
-    this.storage.addProject({ id, name: this.newProjectName });
+    await this.storage.addProject({ id, name: this.newProjectName });
     this.newProjectName = '';
-    this.projects = this.storage.getProjects();
+    this.projects = await this.storage.getProjects();
   }
 
   openProject(project: any) {
     this.router.navigate(['/shotlist', project.id]);
   }
 
-  deleteProject(project: any) {
+  async deleteProject(project: any) {
     if (!confirm(`Delete project "${project.name}" and all its shots?`)) return;
-    this.storage.deleteProject(project.id);
-    this.projects = this.storage.getProjects();
+    await this.storage.deleteProject(project.id);
+    this.projects = await this.storage.getProjects();
   }
 }

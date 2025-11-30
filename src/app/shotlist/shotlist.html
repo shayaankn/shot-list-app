@@ -24,7 +24,10 @@
           <!-- space for checkbox/index column -->
         </div>
 
-        <div class="flex-1 grid grid-cols-7 gap-3">
+        <div class="flex-1 grid grid-cols-8 gap-3">
+          <div>
+            <div class="text-sm text-stone-600 font-semibold">Storyboard</div>
+          </div>
           <div>
             <div class="text-sm text-stone-600 font-semibold">Scene</div>
           </div>
@@ -61,7 +64,31 @@
             <!-- <div class="text-xs text-gray-500 mt-2">#{{ i + 1 }}</div> -->
           </div>
 
-          <div class="flex-1 grid grid-cols-7 gap-3">
+          <div class="flex-1 grid grid-cols-8 gap-3">
+            <div>
+              <div
+                class="w-28 h-20 bg-stone-200 border border-stone-200 rounded-md overflow-hidden relative flex items-center justify-center"
+              >
+                <img *ngIf="shot.image" [src]="shot.image" class="object-cover w-full h-full" />
+                <div *ngIf="!shot.image" class="text-xs text-stone-500">No image</div>
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  (change)="onImageSelected($event, i)"
+                  class="absolute inset-0 opacity-0 cursor-pointer"
+                />
+
+                <button
+                  *ngIf="shot.image"
+                  (click)="removeImage(i)"
+                  class="absolute bottom-1 right-1 bg-white text-red-600 text-xs rounded cursor-pointer px-1 py-0.5"
+                  type="button"
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
             <div>
               <input
                 [(ngModel)]="shot.scene"
@@ -107,7 +134,10 @@
           </div>
 
           <div class="flex flex-col self-center items-end space-y-2 w-12">
-            <button (click)="removeShot(i)" class="text-sm text-red-600 hover:underline cursor-pointer">
+            <button
+              (click)="removeShot(i)"
+              class="text-sm text-red-600 hover:underline cursor-pointer"
+            >
               Delete
             </button>
           </div>

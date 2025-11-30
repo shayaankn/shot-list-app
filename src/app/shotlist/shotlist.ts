@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 // import { FormsModule, NgFor } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
@@ -13,19 +13,23 @@ import { Storage } from '../services/storage';
   templateUrl: './shotlist.html',
   styleUrls: ['./shotlist.css'],
 })
-export class Shotlist implements OnDestroy {
+export class Shotlist implements OnInit, OnDestroy {
   projectId = '';
   projectName = 'Shot List';
   shots: any[] = [];
 
   constructor(private route: ActivatedRoute, private storage: Storage, private router: Router) {
     this.projectId = this.route.snapshot.paramMap.get('id')!;
-    const projects = this.storage.getProjects ? this.storage.getProjects() : [];
+  }
+
+  async ngOnInit() {
+    this.projectId = this.route.snapshot.paramMap.get('id') || '';
+    const projects = (await this.storage.getProjects()) || [];
     const proj = projects.find((p: any) => p.id === this.projectId);
     this.projectName = proj ? proj.name : 'Shot List';
 
-    this.shots = this.storage.getShots(this.projectId) || [];
-    // normalize so each shot has the expected fields (preserves existing properties)
+    this.shots = (await this.storage.getShots(this.projectId)) || [];
+    // normalize
     this.shots = this.shots.map((s: any) => ({
       scene: '',
       shot: '',
@@ -34,6 +38,7 @@ export class Shotlist implements OnDestroy {
       movement: '',
       timeOfDay: '',
       completed: false,
+      image: null,
       ...s,
     }));
   }
@@ -48,28 +53,50 @@ export class Shotlist implements OnDestroy {
       movement: '',
       timeOfDay: '',
       completed: false,
+      image: null,
     });
-    this.saveShots();
+    void this.saveShots();
   }
 
   removeShot(i: number) {
     this.shots.splice(i, 1);
-    this.saveShots();
+    void this.saveShots();
   }
 
-  saveShots() {
-    this.storage.saveShots(this.projectId, this.shots);
+  async saveShots() {
+    await this.storage.saveShots(this.projectId, this.shots);
   }
 
-  // new: ensure save when component is destroyed (navigation away)
+  // save when component is destroyed (navigation away)
   ngOnDestroy(): void {
-    this.saveShots();
+    void this.saveShots();
   }
 
-  // new: called from the Back link to save then navigate
-  goBack(event: Event) {
+  // called from the Back link to save then navigate
+  async goBack(event: Event) {
     event.preventDefault();
-    this.saveShots();
+    await this.saveShots();
     this.router.navigate(['/projects']);
+  }
+
+  // Image upload handler
+  onImageSelected(event: Event, i: number) {
+    const input = event.target as HTMLInputElement;
+    const file = input?.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = async () => {
+      this.shots[i].image = reader.result as string;
+      await this.saveShots();
+    };
+    reader.readAsDataURL(file);
+    // reset input so same file can be selected again if needed
+    input.value = '';
+  }
+
+  // Remove image from shot
+  async removeImage(i: number) {
+    this.shots[i].image = null;
+    await this.saveShots();
   }
 }
