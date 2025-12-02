@@ -10,7 +10,7 @@
       </a>
       <button
         (click)="addShot()"
-        class="bg-stone-800 hover:bg-stone-900 text-stone-100 rounded-md cursor-pointer px-4 py-2 ml-2"
+        class="bg-rose-600 hover:bg-rose-700 text-stone-100 rounded-md cursor-pointer px-4 py-2 ml-2"
       >
         + Add Shot
       </button>
@@ -82,7 +82,7 @@
                 <button
                   *ngIf="shot.image"
                   (click)="removeImage(i)"
-                  class="absolute bottom-1 right-1 hover:text-red-600 cursor-pointer px-1 py-0.5"
+                  class="absolute bottom-1 right-1 hover:text-rose-600 cursor-pointer px-1 py-0.5"
                   type="button"
                 >
                   <i class="bi bi-trash-fill"></i>
@@ -136,7 +136,7 @@
           <div class="flex flex-col self-center items-end space-y-2 w-12">
             <button
               (click)="removeShot(i)"
-              class="text-sm text-red-600 hover:underline cursor-pointer"
+              class="text-sm text-rose-600 hover:underline cursor-pointer"
             >
               Delete
             </button>
