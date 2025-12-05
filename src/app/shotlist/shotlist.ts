@@ -5,11 +5,13 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgFor } from '@angular/common';
 import { Storage } from '../services/storage';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-shotlist',
   standalone: true,
-  imports: [FormsModule, CommonModule, NgFor],
+  imports: [FormsModule, CommonModule, NgFor, DragDropModule],
   templateUrl: './shotlist.html',
   styleUrls: ['./shotlist.css'],
 })
@@ -97,6 +99,13 @@ export class Shotlist implements OnInit, OnDestroy {
   // Remove image from shot
   async removeImage(i: number) {
     this.shots[i].image = null;
+    await this.saveShots();
+  }
+
+  // handle drop from CDK Drag & Drop
+  async drop(event: CdkDragDrop<any[]>) {
+    if (event.previousIndex === event.currentIndex) return;
+    moveItemInArray(this.shots, event.previousIndex, event.currentIndex);
     await this.saveShots();
   }
 }

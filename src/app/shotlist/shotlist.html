@@ -20,6 +20,9 @@
   <div class="overflow-x-auto">
     <div class="min-w-[900px]">
       <div class="border-b border-b-stone-300 flex items-start space-x-4 p-3">
+        <!-- grip column header -->
+        <div class="flex flex-col items-center w-6"></div>
+
         <div class="flex flex-col items-center w-8">
           <!-- space for checkbox/index column -->
         </div>
@@ -53,12 +56,23 @@
         </div>
       </div>
 
-      <div>
+      <div cdkDropList (cdkDropListDropped)="drop($event)">
         <div
           *ngFor="let shot of shots; let i = index"
+          cdkDrag
           class="flex items-start border-b border-b-stone-200 space-x-4 p-3"
           [class.opacity-25]="shot.completed"
         >
+          <!-- grip handle column -->
+          <div class="flex flex-col items-center self-center w-6">
+            <i
+              class="bi bi-grip-vertical text-stone-400 hover:text-stone-600 cursor-grab"
+              cdkDragHandle
+              aria-hidden="true"
+              title="Drag to reorder"
+            ></i>
+          </div>
+
           <div class="flex flex-col self-center w-8">
             <input type="checkbox" [(ngModel)]="shot.completed" (change)="saveShots()" />
             <!-- <div class="text-xs text-gray-500 mt-2">#{{ i + 1 }}</div> -->
