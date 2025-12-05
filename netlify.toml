@@ -1,9 +1,0 @@
-[build]
-  publish = "dist/shot-list-app/browser"
-  command = "ng build"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  force = true
