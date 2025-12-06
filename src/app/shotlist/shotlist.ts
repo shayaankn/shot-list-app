@@ -38,7 +38,6 @@ export class Shotlist implements OnInit, OnDestroy {
       description: '',
       lens: '',
       movement: '',
-      timeOfDay: '',
       completed: false,
       image: null,
       ...s,
@@ -53,7 +52,6 @@ export class Shotlist implements OnInit, OnDestroy {
       description: '',
       lens: '',
       movement: '',
-      timeOfDay: '',
       completed: false,
       image: null,
     });

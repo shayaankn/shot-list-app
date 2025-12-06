@@ -23,11 +23,11 @@
         <!-- grip column header -->
         <div class="flex flex-col items-center w-2"></div>
 
-        <div class="flex flex-col items-center w-4">
+        <div class="flex flex-col items-center w-6">
           <!-- space for checkbox/index column -->
         </div>
 
-        <div class="flex-1 grid grid-cols-8 gap-3">
+        <div class="flex-1 grid grid-cols-7 gap-3">
           <div>
             <div class="text-sm text-stone-500 font-semibold">Image</div>
           </div>
@@ -45,9 +45,6 @@
           </div>
           <div>
             <div class="text-sm text-stone-500 font-semibold">Movement</div>
-          </div>
-          <div>
-            <div class="text-sm text-stone-500 font-semibold">Time of Day</div>
           </div>
         </div>
 
@@ -73,12 +70,12 @@
             ></i>
           </div>
 
-          <div class="flex flex-col self-center w-4">
+          <div class="flex flex-col self-center w-6">
             <input type="checkbox" [(ngModel)]="shot.completed" (change)="saveShots()" />
             <!-- <div class="text-xs text-gray-500 mt-2">#{{ i + 1 }}</div> -->
           </div>
 
-          <div class="flex-1 grid grid-cols-8 gap-3">
+          <div class="flex-1 grid grid-cols-7 gap-3">
             <div>
               <div
                 class="w-22 lg:w-26 xl:w-28 h-20 bg-stone-100 border border-stone-200 rounded-md overflow-hidden relative flex items-center justify-center"
@@ -135,13 +132,6 @@
             <div class="self-center">
               <input
                 [(ngModel)]="shot.movement"
-                (ngModelChange)="saveShots()"
-                class="text-sm text-stone-800 border border-stone-200 hover:border-stone-300 rounded-md w-full p-1"
-              />
-            </div>
-            <div class="self-center">
-              <input
-                [(ngModel)]="shot.timeOfDay"
                 (ngModelChange)="saveShots()"
                 class="text-sm text-stone-800 border border-stone-200 hover:border-stone-300 rounded-md w-full p-1"
               />
