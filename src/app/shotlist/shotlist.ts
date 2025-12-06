@@ -113,7 +113,7 @@ export class Shotlist implements OnInit, OnDestroy {
   exportPdf() {
     const doc = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
 
-    const head = [['Image', 'Scene', 'Shot', 'Description', 'Lens', 'Movement', 'Status']];
+    const head = [['Image', 'Scene', 'Shot', 'Description', 'Lens', 'Movement']];
 
     // 1. Pass an empty string '' for the image column
     // This prevents the library from trying to render the base64 string as text
@@ -124,18 +124,24 @@ export class Shotlist implements OnInit, OnDestroy {
       s.description || '',
       s.lens || '',
       s.movement || '',
-      s.completed ? 'Done' : 'Pending',
     ]);
+
+    // Add a title for the shot list
+    doc.text(`Shot List for: ${this.projectName}`, 40, 30);
 
     autoTable(doc, {
       head,
       body,
-      startY: 20,
+      startY: 50, // Start lower due to the title text
       // 2. Set a minCellHeight to ensure there is physical space for the image
-      styles: { fontSize: 10, cellPadding: 2, minCellHeight: 50, valign: 'middle' },
+      styles: { fontSize: 10, cellPadding: 4, minCellHeight: 70, valign: 'middle' },
       columnStyles: {
-        0: { cellWidth: 70 }, // Fixed width for image column
+        0: { cellWidth: 100 }, // Fixed width for image column
         3: { cellWidth: 200 }, // Description gets more space
+      },
+      headStyles: { 
+        fillColor: [236, 0, 63], 
+        textColor: 255,
       },
       didDrawCell: (data: any) => {
         // Ensure we only draw in the body rows, not the header
