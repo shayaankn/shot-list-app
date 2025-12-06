@@ -7,6 +7,8 @@ import { NgFor } from '@angular/common';
 import { Storage } from '../services/storage';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-shotlist',
@@ -45,7 +47,7 @@ export class Shotlist implements OnInit, OnDestroy {
   }
 
   addShot() {
-    // create shot with new structure
+    // Create shot with new structure
     this.shots.push({
       scene: '',
       shot: '',
@@ -67,12 +69,12 @@ export class Shotlist implements OnInit, OnDestroy {
     await this.storage.saveShots(this.projectId, this.shots);
   }
 
-  // save when component is destroyed (navigation away)
+  // Save when component is destroyed (navigation away)
   ngOnDestroy(): void {
     void this.saveShots();
   }
 
-  // called from the Back link to save then navigate
+  // Called from the Back link to save then navigate
   async goBack(event: Event) {
     event.preventDefault();
     await this.saveShots();
@@ -100,10 +102,76 @@ export class Shotlist implements OnInit, OnDestroy {
     await this.saveShots();
   }
 
-  // handle drop from CDK Drag & Drop
+  // Handle drop from CDK Drag & Drop
   async drop(event: CdkDragDrop<any[]>) {
     if (event.previousIndex === event.currentIndex) return;
     moveItemInArray(this.shots, event.previousIndex, event.currentIndex);
     await this.saveShots();
+  }
+
+  // Export current shotlist to PDF using jspdf + autotable
+  exportPdf() {
+    const doc = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
+
+    const head = [['Image', 'Scene', 'Shot', 'Description', 'Lens', 'Movement', 'Status']];
+
+    // 1. Pass an empty string '' for the image column
+    // This prevents the library from trying to render the base64 string as text
+    const body = this.shots.map((s) => [
+      '',
+      s.scene || '',
+      s.shot || '',
+      s.description || '',
+      s.lens || '',
+      s.movement || '',
+      s.completed ? 'Done' : 'Pending',
+    ]);
+
+    autoTable(doc, {
+      head,
+      body,
+      startY: 20,
+      // 2. Set a minCellHeight to ensure there is physical space for the image
+      styles: { fontSize: 10, cellPadding: 2, minCellHeight: 50, valign: 'middle' },
+      columnStyles: {
+        0: { cellWidth: 70 }, // Fixed width for image column
+        3: { cellWidth: 200 }, // Description gets more space
+      },
+      didDrawCell: (data: any) => {
+        // Ensure we only draw in the body rows, not the header
+        if (data.section === 'body' && data.column.index === 0) {
+          // 3. Retrieve the image using the row index from your source data
+          const originalShot = this.shots[data.row.index];
+
+          if (originalShot && originalShot.image) {
+            const imgData = originalShot.image;
+
+            // Calculate dimensions to fit image nicely
+            const padding = 5;
+            const cellWidth = data.cell.width;
+            const cellHeight = data.cell.height;
+
+            // Draw image inside the cell bounds
+            try {
+              // jspdf is smart enough to detect format usually, or you can specify 'PNG'/'JPEG'
+              doc.addImage(
+                imgData,
+                'JPEG',
+                data.cell.x + padding,
+                data.cell.y + padding,
+                cellWidth - padding * 2,
+                cellHeight - padding * 2
+              );
+            } catch (err) {
+              // Fallback or silent fail if image format is weird
+              console.warn('Could not add image to PDF', err);
+            }
+          }
+        }
+      },
+    });
+
+    const fileName = `${(this.projectName || 'project').replace(/\s+/g, '_')}_shotlist.pdf`;
+    doc.save(fileName);
   }
 }
